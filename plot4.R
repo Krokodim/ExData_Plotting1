@@ -1,27 +1,47 @@
+# This function draws the plot marked as 'Plot 4'
+# (actually a set of plots)
 
-# the function draws the plot marked as 'Plot 4'
+# Please note that the data reading routine 
+# is generic for all the plots and thus placed 
+# into a separate file "readdata.R"
+
 plot4 <- function () {
   
+  # read the data if it's not already read
+  if(!any(ls(.GlobalEnv) == "DT")) {
+    source("readdata.R")  
+    DT <- readdata()
+  }
   
-  prev.par <- par(bg="transparent", mfrow=c(2,2))
+  # adjust the graphic parameters
+  prev.par <- par(
+    bg="transparent", # as it is in the 'figure' folder
+    mfrow=c(2,2)      # 2x2 set of plots
+  )
+  
+  # remember the current locale
   prev.locale <- Sys.getlocale("LC_TIME")
-  Sys.setlocale("LC_TIME", "English")
   
+  # set the locale to En 
+  v <- Sys.setlocale("LC_TIME", "English")
   
+  # top-left plot
   plot (
     DT$Global_active_power ~ DT$Time, 
     xlab = "",
     ylab = "Global Active Power",
-    type="l"  )
+    type = "l"  )
   
+  # top-right plot
   plot(
     DT$Voltage ~ DT$Time, 
-    xlab="datetime",
-    ylab="Voltage",
-    type="l")
+    xlab = "datetime",
+    ylab = "Voltage",
+    type = "l")
   
+  # bottom-left plot
   plot (
-           DT$Sub_metering_1 ~ DT$Time, 
+    DT$Sub_metering_1 ~ DT$Time, 
     xlab = "",
     ylab = "Energy sub metering",
     col  = "black",
@@ -31,32 +51,35 @@ plot4 <- function () {
   lines(DT$Sub_metering_3 ~ DT$Time, col="blue")
   
   legend(
-    "topright",
+   "topright",
     legend = c("Sub_metering_1","Sub_metering_2","Sub_metering_3"),
-    col = c("black", "red", "blue"),
-    lty=c(1,1)
+    col    = c("black", "red", "blue"),
+    lty    = 1
   )
 
+  # bottom-right plot
   plot(
     DT$Global_reactive_power ~ DT$Time, 
-    xlab="datetime",
-    ylab="Global_reactive_power",
-    type="l")
+    xlab = "datetime",
+    ylab = "Global_reactive_power",
+    type = "l")
   
+  # restore the graphics params
   par(prev.par)
-  Sys.setlocale("LC_TIME", prev.locale)
+  
+  # restore the locale
+  v <- Sys.setlocale("LC_TIME", prev.locale)
 }
 
-# read the data if it's not already read
-  if(!any(ls() == "DT")) {
-    source("readdata.R")  
-    DT <- readdata()
-  }
 
 # draw the plot onto the screen
   plot4()
 
-# write it into a png
+# open a png file
   png("plot4.png", width=480, height=480, units="px")
+
+# draw the plot into the file
   plot4()
+
+# close the file
   dev.off()

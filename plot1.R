@@ -1,11 +1,28 @@
-source("readdata.R")  
+# This function draws the plot marked as 'Plot 1'
 
-# the function draws the plot marked as 'Plot 1'
+# Please note that the data reading routine 
+# is generic for all the plots and thus placed 
+# into a separate file "readdata.R"
+
 plot1 <- function () {
   
-  prev.par <- par(bg="transparent", mfrow=c(1,1))
+  # read the data if it's not already read
+  if(!any(ls(.GlobalEnv) == "DT")) {
+    source("readdata.R")  
+    DT <- readdata()
+  }
+  
+  # adjust the graphic parameters
+  prev.par <- par(
+    bg="transparent", # as it is in the 'figure' folder
+    mfrow=c(1,1)      # a single plot
+  )
+  
+  # remember the current locale
   prev.locale <- Sys.getlocale("LC_TIME")
-  Sys.setlocale("LC_TIME", "English")
+  
+  # set the locale to En 
+  v <- Sys.setlocale("LC_TIME", "English")
   
   # draw the histogram
   hist(
@@ -20,20 +37,22 @@ plot1 <- function () {
   axis(1,c(0,2,4,6))
   axis(2,c(0,200,400,600,800,1000,1200))
  
+  # restore the graphics params
   par(prev.par)
-  Sys.setlocale("LC_TIME", prev.locale)
+  
+  # restore the locale
+  v <- Sys.setlocale("LC_TIME", prev.locale)
 }
 
-# read the data if it's not already read
-if(!any(ls() == "DT")) {
-  source("readdata.R")  
-  DT <- readdata()
-}
 
 # draw the plot onto the screen
   plot1()
 
-# write it into a png
+# open a png file
   png("plot1.png", width=480, height=480, units="px")
+
+# draw the plot into the file
   plot1()
+
+# close the file
   dev.off()

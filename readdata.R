@@ -3,6 +3,7 @@
 library(data.table)
 
 readdata <- function (filename="household_power_consumption.txt") {
+  
   # read the data as character data.table 
     DT.raw <- fread(
       input            = filename, 
@@ -14,10 +15,10 @@ readdata <- function (filename="household_power_consumption.txt") {
   # subset to only the required rows ...
     DT <- DT.raw[Date == "1/2/2007" | Date == "2/2/2007"]
   
-  # ... and remove the origonal dataset from the memory
+  # ... and remove the original dataset from the memory
     rm(DT.raw)
   
-  # replace "?" cells with NA (looks strange but works!)
+  # replace "?" cells with NA (looks strange but works fine!)
     is.na(DT) <- DT == "?" 
   
   
