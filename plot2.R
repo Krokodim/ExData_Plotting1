@@ -1,8 +1,9 @@
 
-# the function draws the plot maked as 'Plot 2'
+# the function draws the plot marked as 'Plot 2'
 plot2 <- function () {
   
-  pp <- par(bg="transparent", mfrow=c(1,1))
+  prev.par <- par(bg="transparent", mfrow=c(1,1))
+  prev.locale <- Sys.getlocale("LC_TIME")
   Sys.setlocale("LC_TIME", "English")
   
   plot (
@@ -11,6 +12,8 @@ plot2 <- function () {
     ylab = "Global Active Power (kilowatts)",
     type="l"  )
   
+  par(prev.par)
+  Sys.setlocale("LC_TIME", prev.locale)
 }
 
 # read the data if it's not already read

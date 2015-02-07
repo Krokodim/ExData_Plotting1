@@ -1,8 +1,10 @@
 
-# the function draws the plot maked as 'Plot 4'
+# the function draws the plot marked as 'Plot 4'
 plot4 <- function () {
   
-  pp <- par(bg="transparent", mfrow=c(2,2))
+  
+  prev.par <- par(bg="transparent", mfrow=c(2,2))
+  prev.locale <- Sys.getlocale("LC_TIME")
   Sys.setlocale("LC_TIME", "English")
   
   
@@ -40,6 +42,9 @@ plot4 <- function () {
     xlab="datetime",
     ylab="Global_reactive_power",
     type="l")
+  
+  par(prev.par)
+  Sys.setlocale("LC_TIME", prev.locale)
 }
 
 # read the data if it's not already read
