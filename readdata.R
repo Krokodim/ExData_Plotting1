@@ -2,8 +2,6 @@
 
 library(data.table)
 
-DT <- data.table()
-
 readdata <- function (filename="household_power_consumption.txt") {
   
   # read the data as character data.table 
