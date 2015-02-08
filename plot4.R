@@ -15,7 +15,7 @@ plot4 <- function () {
   
   # adjust the graphic parameters
   prev.par <- par(
-    bg="transparent", # as it is in the 'figure' folder
+    bg="white", # as it is in the 'figure' folder
     mfrow=c(2,2)      # 2x2 set of plots
   )
   
