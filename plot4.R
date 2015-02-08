@@ -54,7 +54,7 @@ plot4 <- function () {
    "topright",
     legend = c("Sub_metering_1","Sub_metering_2","Sub_metering_3"),
     col    = c("black", "red", "blue"),
-    lty    = 1
+    lty    = 1, bty = "n"
   )
 
   # bottom-right plot
